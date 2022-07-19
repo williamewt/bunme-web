@@ -1,0 +1,12 @@
+export const Colors = {
+  white: '#FFFFFF',
+  black: '#000000',
+  background: '#F2F2F2',
+  primary: '#880E4F',
+  primaryDark: '#560027',
+  primaryLight: '#BC477B',
+  disabledBackground: '#CCCCCC',
+  disabledColor: '#666666',
+  valid: '#4CAF50',
+  invalid: '#EF5350'
+}
