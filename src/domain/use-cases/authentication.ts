@@ -1,5 +1,5 @@
 import { HttpPostClient, HttpStatusCode } from '@/infra/http'
-import { UnexpectedError } from '@/domain/errors'
+import { UnexpectedError } from '@/application/errors'
 
 type Setup = (
   url: string,

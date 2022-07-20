@@ -1,5 +1,20 @@
+export enum HttpStatusCode {
+  ok = 200,
+  noContent = 204,
+  badRequest = 400,
+  unauthorized = 401,
+  forbidden = 403,
+  notFound = 404,
+  serverError = 500
+}
+
+export type HttpResponse<T = any> = {
+  statusCode: HttpStatusCode
+  body?: T
+}
+
 export interface HttpGetClient {
-  get: <T = any> (params: HttpGetClient.Input) => Promise<T>
+  get: <T = any> (params: HttpGetClient.Input) => Promise<HttpResponse<T>>
 }
 
 export namespace HttpGetClient {
@@ -10,7 +25,7 @@ export namespace HttpGetClient {
 }
 
 export interface HttpPostClient {
-  post: <T = any> (params: HttpPostClient.Input) => Promise<T>
+  post: <T = any> (params: HttpPostClient.Input) => Promise<HttpResponse<T>>
 }
 
 export namespace HttpPostClient {
@@ -22,7 +37,7 @@ export namespace HttpPostClient {
 }
 
 export interface HttpPutClient {
-  put: <T = any> (params: HttpPutClient.Input) => Promise<T>
+  put: <T = any> (params: HttpPutClient.Input) => Promise<HttpResponse<T>>
 }
 
 export namespace HttpPutClient {
@@ -34,7 +49,7 @@ export namespace HttpPutClient {
 }
 
 export interface HttpDeleteClient {
-  delete: <T = any> (params: HttpDeleteClient.Input) => Promise<T>
+  delete: <T = any> (params: HttpDeleteClient.Input) => Promise<HttpResponse<T>>
 }
 
 export namespace HttpDeleteClient {
@@ -42,14 +57,4 @@ export namespace HttpDeleteClient {
     url: string
     config?: object
   }
-}
-
-export enum HttpStatusCode {
-  ok = 200,
-  noContent = 204,
-  badRequest = 400,
-  unauthorized = 401,
-  forbidden = 403,
-  notFound = 404,
-  serverError = 500
 }

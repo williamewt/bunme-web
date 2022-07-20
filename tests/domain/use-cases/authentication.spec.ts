@@ -1,6 +1,6 @@
 import { mock, MockProxy } from 'jest-mock-extended'
 import { HttpPostClient } from '@/infra/http'
-import { UnexpectedError } from '@/domain/errors'
+import { UnexpectedError } from '@/application/errors'
 import { Authentication, setupAuthentication } from '@/domain/use-cases'
 
 describe('Authentication', () => {

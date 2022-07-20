@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { AxiosHttpClient } from '@/infra/http'
+import { UnexpectedError } from '@/application/errors'
 
 jest.mock('axios')
 
@@ -48,21 +49,43 @@ describe('AxiosHttpClient', () => {
     it('should return data on success', async () => {
       const result = await sut.get({ url: url, config })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should return data on success if config is empty', async () => {
       const result = await sut.get({ url: url })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
+    })
+
+    it('should returns error if response throw', async () => {
+      fakeAxios.get.mockRejectedValueOnce({
+        response: {
+          status: 400,
+          data: { error: 'any_400_error' }
+        }
+      })
+
+      const response = await sut.get({ url: url, config })
+
+      expect(response).toEqual({
+        statusCode: 400,
+        body: { error: 'any_400_error' }
+      })
     })
 
     it('should rethrow if get throws', async () => {
-      fakeAxios.get.mockRejectedValueOnce(new Error('http_error'))
+      fakeAxios.get.mockRejectedValueOnce(new Error('any_error'))
 
       const promise = sut.get({ url: url, config })
 
-      await expect(promise).rejects.toThrow(new Error('http_error'))
+      await expect(promise).rejects.toThrow(new UnexpectedError())
     })
   })
 
@@ -77,33 +100,61 @@ describe('AxiosHttpClient', () => {
     it('should return data on success', async () => {
       const result = await sut.post({ url: url, data, config })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should return data on success if data is empty', async () => {
       const result = await sut.post({ url: url, config })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should return data on success if config is empty', async () => {
       const result = await sut.post({ url: url, data })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should return data on success if data and config is empty', async () => {
       const result = await sut.post({ url: url })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
+    })
+
+    it('should returns error if response throw', async () => {
+      fakeAxios.post.mockRejectedValueOnce({
+        response: {
+          status: 400,
+          data: { error: 'any_400_error' }
+        }
+      })
+
+      const response = await sut.post({ url: url, config })
+
+      expect(response).toEqual({
+        statusCode: 400,
+        body: { error: 'any_400_error' }
+      })
     })
 
     it('should rethrow if post throws', async () => {
-      fakeAxios.post.mockRejectedValueOnce(new Error('http_error'))
+      fakeAxios.post.mockRejectedValueOnce(new Error('any_error'))
 
       const promise = sut.post({ url: url, data, config })
 
-      await expect(promise).rejects.toThrow(new Error('http_error'))
+      await expect(promise).rejects.toThrow(new UnexpectedError())
     })
   })
 
@@ -118,33 +169,61 @@ describe('AxiosHttpClient', () => {
     it('should return data on success', async () => {
       const result = await sut.put({ url: url, data, config })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should return data on success if data is empty', async () => {
       const result = await sut.put({ url: url, config })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should return data on success if config is empty', async () => {
       const result = await sut.put({ url: url, data })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should return data on success if data and config is empty', async () => {
       const result = await sut.put({ url: url })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
+    })
+
+    it('should returns error if response throw', async () => {
+      fakeAxios.put.mockRejectedValueOnce({
+        response: {
+          status: 400,
+          data: { error: 'any_400_error' }
+        }
+      })
+
+      const response = await sut.put({ url: url, config })
+
+      expect(response).toEqual({
+        statusCode: 400,
+        body: { error: 'any_400_error' }
+      })
     })
 
     it('should rethrow if put throws', async () => {
-      fakeAxios.put.mockRejectedValueOnce(new Error('http_error'))
+      fakeAxios.put.mockRejectedValueOnce(new Error('any_error'))
 
       const promise = sut.put({ url: url, data, config })
 
-      await expect(promise).rejects.toThrow(new Error('http_error'))
+      await expect(promise).rejects.toThrow(new UnexpectedError())
     })
   })
 
@@ -159,21 +238,27 @@ describe('AxiosHttpClient', () => {
     it('should return data on success', async () => {
       const result = await sut.delete({ url: url, config })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should return data on success if config is empty', async () => {
       const result = await sut.delete({ url: url })
 
-      expect(result).toEqual('any_data_return')
+      expect(result).toEqual({
+        statusCode: 200,
+        body: 'any_data_return'
+      })
     })
 
     it('should rethrow if delete throws', async () => {
-      fakeAxios.delete.mockRejectedValueOnce(new Error('http_error'))
+      fakeAxios.delete.mockRejectedValueOnce(new Error('any_error'))
 
       const promise = sut.delete({ url: url, config })
 
-      await expect(promise).rejects.toThrow(new Error('http_error'))
+      await expect(promise).rejects.toThrow(new UnexpectedError())
     })
   })
 })
