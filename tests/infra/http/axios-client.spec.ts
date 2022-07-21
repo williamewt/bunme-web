@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { AxiosHttpClient } from '@/infra/http'
-import { UnexpectedError } from '@/application/errors'
 
 jest.mock('axios')
 
@@ -79,14 +78,6 @@ describe('AxiosHttpClient', () => {
         body: { error: 'any_400_error' }
       })
     })
-
-    it('should rethrow if get throws', async () => {
-      fakeAxios.get.mockRejectedValueOnce(new Error('any_error'))
-
-      const promise = sut.get({ url: url, config })
-
-      await expect(promise).rejects.toThrow(new UnexpectedError())
-    })
   })
 
   describe('post', () => {
@@ -147,14 +138,6 @@ describe('AxiosHttpClient', () => {
         statusCode: 400,
         body: { error: 'any_400_error' }
       })
-    })
-
-    it('should rethrow if post throws', async () => {
-      fakeAxios.post.mockRejectedValueOnce(new Error('any_error'))
-
-      const promise = sut.post({ url: url, data, config })
-
-      await expect(promise).rejects.toThrow(new UnexpectedError())
     })
   })
 
@@ -217,14 +200,6 @@ describe('AxiosHttpClient', () => {
         body: { error: 'any_400_error' }
       })
     })
-
-    it('should rethrow if put throws', async () => {
-      fakeAxios.put.mockRejectedValueOnce(new Error('any_error'))
-
-      const promise = sut.put({ url: url, data, config })
-
-      await expect(promise).rejects.toThrow(new UnexpectedError())
-    })
   })
 
   describe('delete', () => {
@@ -253,12 +228,20 @@ describe('AxiosHttpClient', () => {
       })
     })
 
-    it('should rethrow if delete throws', async () => {
-      fakeAxios.delete.mockRejectedValueOnce(new Error('any_error'))
+    it('should returns error if response throw', async () => {
+      fakeAxios.delete.mockRejectedValueOnce({
+        response: {
+          status: 400,
+          data: { error: 'any_400_error' }
+        }
+      })
 
-      const promise = sut.delete({ url: url, config })
+      const response = await sut.delete({ url: url, config })
 
-      await expect(promise).rejects.toThrow(new UnexpectedError())
+      expect(response).toEqual({
+        statusCode: 400,
+        body: { error: 'any_400_error' }
+      })
     })
   })
 })

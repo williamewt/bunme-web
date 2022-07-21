@@ -8,6 +8,8 @@ module.exports = {
     '<rootDir>/src/**/*.{ts,tsx}',
     '!<rootDir>/src/main/**/*',
     '!<rootDir>/src/**/index.ts',
+    '!<rootDir>/src/**/styles.ts',
+    '!<rootDir>/src/application/styles/**/*',
     '!**/*.d.ts'
   ],
   setupFilesAfterEnv: ['<rootDir>/src/main/config/jest-setup.ts'],
